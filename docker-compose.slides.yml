@@ -3,3 +3,34 @@ services:
     build: ./slides
     ports:
       - "8080:80"
+  slides-observability:
+    build: ./slides-observability
+    profiles: ["observability"]
+    ports:
+      - "9464:9464"
+  prometheus:
+    image: prom/prometheus:v3.1.0
+    profiles: ["observability"]
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+    volumes:
+      - ./slides-observability/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    ports:
+      - "9091:9090"
+    depends_on:
+      - slides-observability
+  grafana:
+    image: grafana/grafana:11.4.0
+    profiles: ["observability"]
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_USERS_ALLOW_SIGN_UP: "false"
+    volumes:
+      - ./slides-observability/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources:ro
+      - ./slides-observability/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./slides-observability/grafana/dashboards:/var/lib/grafana/dashboards:ro
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus

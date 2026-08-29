@@ -1,19 +1,23 @@
 ---
 theme: default
-title: Docker Compose Forum
+title: Kubernetes Forum
 css: unocss
 layout: cover
 class: slide-navy
 ---
 
-<div class="eyebrow">Internal training</div>
+<div class="eyebrow">Internal training · 20 August 2026</div>
 
-# Docker Compose Forum
+# Kubernetes Forum
 
-<div class="subtitle">Build it, break it, fix it</div>
+<div class="subtitle">Docker Compose</div>
 
 <div class="absolute bottom-8 left-8 text-sm" style="color:var(--text-light-muted)">
-MyTravels local development stack
+Presented by Liam Carver, Tshepo Ntlhokoa &amp; Vincent Chegwidden
+</div>
+
+<div class="absolute bottom-8 right-8 text-sm" style="color:var(--text-light-muted)">
+entelect.co.za
 </div>
 
 ---
