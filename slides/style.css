@@ -1,0 +1,153 @@
+/* Docker Compose Forum — visual theme
+   Palette and slide-type styles derived from ../../presentation-visual-template.md */
+
+:root {
+  --navy-deep: #00263d;
+  --ink-dark: #102033;
+  --text-navy: #002b49;
+  --lime: #95c11f;
+  --blue-accent: #0f5c99;
+  --white: #ffffff;
+  --off-white: #f5f7fa;
+  --grey-secondary: #737b87;
+  --grey-divider: #d7dce2;
+  --text-light: #f7f8fa;
+  --text-light-muted: #b7bec8;
+}
+
+/* Base slide typography */
+.slidev-layout {
+  font-family: "Aptos", "Avenir Next", "Segoe UI", sans-serif;
+  color: var(--text-navy);
+  background: var(--white);
+}
+
+.slidev-layout h1,
+.slidev-layout h2,
+.slidev-layout h3 {
+  font-weight: 400;
+  color: var(--text-navy);
+}
+
+.slidev-layout code,
+.slidev-layout pre {
+  font-family: "Cascadia Mono", "JetBrains Mono", Consolas, monospace;
+}
+
+/* Eyebrow label used above every title */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.8rem;
+  color: var(--lime);
+  margin-bottom: 0.5em;
+}
+.eyebrow::before {
+  content: "";
+  display: inline-block;
+  width: 1.5em;
+  height: 2px;
+  background: var(--lime);
+}
+
+/* Cover / closing / section-divider: full navy background */
+.slide-navy {
+  background: var(--navy-deep);
+  color: var(--text-light);
+  height: 100%;
+}
+.slide-navy h1 { color: var(--white); }
+.slide-navy .eyebrow { color: var(--lime); }
+.slide-navy .eyebrow::before { background: var(--lime); }
+.slide-navy .subtitle { color: var(--text-light-muted); }
+
+.section-number {
+  font-size: 4.5rem;
+  color: var(--lime);
+  line-height: 1;
+  margin-bottom: 0.2em;
+}
+
+/* Off-white alternate background for concept/comparison slides */
+.slide-offwhite {
+  background: var(--off-white);
+  height: 100%;
+}
+
+/* Cards for comparisons */
+.card {
+  border: 1px solid var(--grey-divider);
+  border-radius: 8px;
+  padding: 1.5rem;
+  background: var(--white);
+}
+.card-navy {
+  border: 1px solid var(--navy-deep);
+  border-radius: 8px;
+  padding: 1.5rem;
+  background: var(--navy-deep);
+  color: var(--text-light);
+}
+.card-navy h3 { color: var(--white); }
+
+/* Code panels */
+.code-panel {
+  background: var(--ink-dark);
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  color: var(--text-light);
+  font-family: "Cascadia Mono", "JetBrains Mono", Consolas, monospace;
+}
+.code-panel .tok-cmd { color: var(--lime); }
+.code-panel .tok-secondary { color: var(--blue-accent); }
+
+/* Hands-on checkpoint: full lime background */
+.slide-lime {
+  background: var(--lime);
+  color: var(--ink-dark);
+  height: 100%;
+}
+.slide-lime .eyebrow { color: var(--ink-dark); }
+.slide-lime .eyebrow::before { background: var(--ink-dark); }
+.slide-lime .code-panel { background: var(--ink-dark); }
+
+/* Reference tables (commands, pitfalls recap) */
+.ref-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.ref-table th {
+  text-align: left;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--grey-secondary);
+  border-bottom: 1px solid var(--grey-divider);
+  padding: 0.6em 0.8em;
+}
+.ref-table td {
+  padding: 0.6em 0.8em;
+  border-bottom: 1px solid var(--grey-divider);
+}
+.ref-table td:first-child {
+  font-family: "Cascadia Mono", "JetBrains Mono", Consolas, monospace;
+  color: var(--blue-accent);
+}
+
+/* Checklist bullets (lime check marks) */
+.checklist { list-style: none; padding: 0; margin: 0; }
+.checklist li {
+  position: relative;
+  padding-left: 1.6em;
+  margin-bottom: 0.6em;
+}
+.checklist li::before {
+  content: "\2713";
+  position: absolute;
+  left: 0;
+  color: var(--lime);
+  font-weight: bold;
+}
