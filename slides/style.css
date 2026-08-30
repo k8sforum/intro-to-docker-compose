@@ -151,6 +151,178 @@
   font-weight: 400;
 }
 
+.roadmap-slide h1 {
+  font-size: 2.05rem;
+  margin-bottom: 1.25rem;
+}
+
+.roadmap-timeline {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.9rem 1rem;
+  align-items: stretch;
+}
+
+.timeline-step {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.timeline-marker {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  border: 2px solid var(--grey-divider);
+  background: var(--white);
+  color: var(--grey-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 0.6rem;
+}
+
+.timeline-copy {
+  border: 1px solid var(--grey-divider);
+  border-radius: 10px;
+  padding: 0.9rem 1rem 0.95rem;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  min-height: 0;
+  flex: 1;
+}
+
+.timeline-copy h3 {
+  margin: 0;
+  font-size: 1.02rem;
+}
+
+.timeline-step.is-active .timeline-marker {
+  border-color: var(--lime);
+  background: var(--lime);
+  color: var(--ink-dark);
+}
+
+.timeline-step.is-active .timeline-copy {
+  border-color: rgba(149, 193, 31, 0.55);
+  box-shadow: 0 0 0 3px rgba(149, 193, 31, 0.12);
+}
+
+.roadmap-note {
+  margin-top: 0.95rem;
+  color: var(--grey-secondary);
+  font-size: 0.88rem;
+}
+
+.stage-label {
+  margin-bottom: 0.65rem;
+  color: var(--grey-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.7rem;
+}
+
+.slide-navy .stage-label,
+.slide-lime .stage-label {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.slide-lime .stage-label {
+  color: rgba(16, 32, 51, 0.68);
+}
+
+.checkpoint-timeline {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0.55rem;
+  margin-bottom: 0.85rem;
+}
+
+.checkpoint-step {
+  border: 1px solid rgba(16, 32, 51, 0.14);
+  border-radius: 8px;
+  padding: 0.55rem 0.55rem 0.5rem;
+  background: rgba(255, 255, 255, 0.3);
+  min-height: 3.6rem;
+}
+
+.checkpoint-step span,
+.checkpoint-step strong {
+  display: block;
+}
+
+.checkpoint-step span {
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.18rem;
+  color: rgba(16, 32, 51, 0.62);
+}
+
+.checkpoint-step strong {
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: 1.18;
+  color: var(--ink-dark);
+}
+
+.checkpoint-step.is-done {
+  background: rgba(16, 32, 51, 0.08);
+}
+
+.checkpoint-step.is-active {
+  background: var(--ink-dark);
+  border-color: var(--ink-dark);
+}
+
+.checkpoint-step.is-active span,
+.checkpoint-step.is-active strong {
+  color: var(--text-light);
+}
+
+.checkpoint-note {
+  margin: 0 0 1rem;
+  font-size: 0.9rem;
+  color: rgba(16, 32, 51, 0.72);
+  line-height: 1.4;
+}
+
+.slide-lime .checkpoint-note {
+  color: rgba(16, 32, 51, 0.74);
+}
+
+.slide-navy .checkpoint-step {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.slide-navy .checkpoint-step span {
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.slide-navy .checkpoint-step strong {
+  color: var(--text-light);
+}
+
+.slide-navy .checkpoint-step.is-done {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.slide-navy .checkpoint-step.is-active {
+  background: var(--lime);
+  border-color: var(--lime);
+}
+
+.slide-navy .checkpoint-step.is-active span,
+.slide-navy .checkpoint-step.is-active strong {
+  color: var(--ink-dark);
+}
+
+.slide-navy .checkpoint-note {
+  color: rgba(255, 255, 255, 0.74);
+}
+
 /* Off-white alternate background for concept/comparison slides */
 .slide-offwhite {
   background: var(--off-white);

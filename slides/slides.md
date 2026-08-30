@@ -32,11 +32,62 @@ layout: default
   <div class="agenda-grid">
     <div class="agenda-item"><span class="agenda-number">01</span><span>Why Compose?</span></div>
     <div class="agenda-item"><span class="agenda-number">02</span><span>Core Concepts</span></div>
-    <div class="agenda-item"><span class="agenda-number">03</span><span>Images &amp; Registries</span></div>
-    <div class="agenda-item"><span class="agenda-number">04</span><span>Networking</span></div>
-    <div class="agenda-item"><span class="agenda-number">05</span><span>Data &amp; Storage</span></div>
-    <div class="agenda-item"><span class="agenda-number">06</span><span>Dependencies &amp; Quality</span></div>
+    <div class="agenda-item"><span class="agenda-number">03</span><span>Data &amp; Storage</span></div>
+    <div class="agenda-item"><span class="agenda-number">04</span><span>Dependency Flow</span></div>
+    <div class="agenda-item"><span class="agenda-number">05</span><span>Images &amp; Registries</span></div>
+    <div class="agenda-item"><span class="agenda-number">06</span><span>Networking</span></div>
+    <div class="agenda-item"><span class="agenda-number">07</span><span>Reliability &amp; Quality</span></div>
   </div>
+</div>
+
+---
+layout: default
+---
+
+<div class="content-frame roadmap-slide">
+  <div class="eyebrow">Live build roadmap</div>
+  <h1>We will assemble the file in six passes</h1>
+
+  <div class="roadmap-timeline">
+    <div class="timeline-step is-active">
+      <div class="timeline-marker">01</div>
+      <div class="timeline-copy">
+        <h3>Foundation</h3>
+      </div>
+    </div>
+    <div class="timeline-step">
+      <div class="timeline-marker">02</div>
+      <div class="timeline-copy">
+        <h3>Dependencies</h3>
+      </div>
+    </div>
+    <div class="timeline-step">
+      <div class="timeline-marker">03</div>
+      <div class="timeline-copy">
+        <h3>Database Flow</h3>
+      </div>
+    </div>
+    <div class="timeline-step">
+      <div class="timeline-marker">04</div>
+      <div class="timeline-copy">
+        <h3>App Services</h3>
+      </div>
+    </div>
+    <div class="timeline-step">
+      <div class="timeline-marker">05</div>
+      <div class="timeline-copy">
+        <h3>Front End</h3>
+      </div>
+    </div>
+    <div class="timeline-step">
+      <div class="timeline-marker">06</div>
+      <div class="timeline-copy">
+        <h3>Reliability Checks</h3>
+      </div>
+    </div>
+  </div>
+
+  <p class="roadmap-note">Every topic feeds the next live build step. We add one layer, read one failure, then repair it before moving on.</p>
 </div>
 
 ---
@@ -55,6 +106,7 @@ layout: default
 ---
 
 <div class="eyebrow">Why Compose</div>
+<div class="stage-label">Live build context · before stage 01</div>
 
 # The problem: one container was never the plan
 
@@ -78,7 +130,7 @@ class: slide-navy
 <div class="section-divider">
   <div class="section-number">02</div>
   <h1>Core Concepts</h1>
-  <div class="subtitle">Services, networks, volumes, and everyday commands</div>
+  <div class="subtitle">Start with the shell, then add structure one block at a time</div>
 </div>
 
 ---
@@ -86,27 +138,55 @@ layout: default
 ---
 
 <div class="eyebrow">Core Concepts</div>
+<div class="stage-label">Live build stage 01 · foundation</div>
 
-# A Compose file describes a running environment
+# A Compose file starts as structure, not magic
 
 <div class="grid grid-cols-2 gap-8 mt-8">
   <div class="card">
     <h3>Services</h3>
-    <p>Named container definitions such as <code>api</code>, <code>postgres</code>, and <code>rabbitmq</code>.</p>
+    <p>Each application or dependency gets a named service block with image, ports, environment, and dependencies.</p>
   </div>
   <div class="card-navy">
     <h3>Shared infrastructure</h3>
-    <p>Compose creates a project network and manages named volumes for the stack.</p>
+    <p>Compose creates one project network and lets services share named volumes and lifecycle commands.</p>
   </div>
 </div>
 
-<p class="mt-6 text-lg">The MyTravels file defines the full application stack, excluding observability for this session.</p>
+<p class="mt-6 text-lg">The file becomes useful before it becomes complete. We start with the shell, then layer in meaning.</p>
+
+---
+layout: default
+class: slide-lime
+---
+
+<div class="content-frame">
+  <div class="eyebrow">Live checkpoint</div>
+  <div class="stage-label">Live build timeline</div>
+  <div class="checkpoint-timeline">
+    <div class="checkpoint-step is-active"><span>01</span><strong>Foundation</strong></div>
+    <div class="checkpoint-step"><span>02</span><strong>Dependencies</strong></div>
+    <div class="checkpoint-step"><span>03</span><strong>Database Flow</strong></div>
+    <div class="checkpoint-step"><span>04</span><strong>App Services</strong></div>
+    <div class="checkpoint-step"><span>05</span><strong>Front End</strong></div>
+    <div class="checkpoint-step"><span>06</span><strong>Reliability</strong></div>
+  </div>
+  <p class="checkpoint-note">Current pass: foundation. Create the top-level compose shell before adding any real services.</p>
+
+  <h1>Create the compose shell</h1>
+
+  <div class="code-panel mt-6">
+    <div>services:</div>
+    <div>volumes:</div>
+  </div>
+</div>
 
 ---
 layout: default
 ---
 
 <div class="eyebrow">Core Concepts</div>
+<div class="stage-label">Live build stages 01-04 · use the same command loop throughout</div>
 
 # Compose CLI essentials
 
@@ -125,153 +205,13 @@ layout: default
 
 ---
 layout: default
-class: slide-lime
----
-
-<div class="content-frame">
-  <div class="eyebrow">Live checkpoint</div>
-
-  <h1>Start the MyTravels stack</h1>
-
-  <div class="code-panel mt-6">
-    <div>docker compose up --build</div>
-    <div>docker compose ps</div>
-    <div>docker compose logs -f api</div>
-  </div>
-</div>
-
----
-layout: default
 class: slide-navy
 ---
 
 <div class="section-divider">
   <div class="section-number">03</div>
-  <h1>Images &amp; Registries</h1>
-  <div class="subtitle">Know when Compose builds and when it pulls</div>
-</div>
-
----
-layout: default
----
-
-<div class="eyebrow">Images &amp; Registries</div>
-
-# Build locally or pull from a registry
-
-<div class="grid grid-cols-2 gap-8 mt-8">
-  <div class="card">
-    <h3><code>build:</code></h3>
-    <p>Build an image from a local Dockerfile and build context.</p>
-    <p>Used by the MyTravels API, messaging service, MCP server, and web UI.</p>
-  </div>
-  <div class="card-navy">
-    <h3><code>image:</code></h3>
-    <p>Use an image already available locally or pull it from a registry.</p>
-    <p>Used by PostgreSQL, RabbitMQ, and MinIO.</p>
-  </div>
-</div>
-
----
-layout: default
----
-
-<div class="eyebrow">Live Diagnosis</div>
-
-# Pull access denied is a useful clue
-
-<div class="grid grid-cols-2 gap-8 mt-8 items-center">
-  <div class="code-panel">
-    <div>pull access denied for</div>
-    <div>mytravels-private/api,</div>
-    <div>repository does not exist or</div>
-    <div>may require 'docker login'</div>
-  </div>
-  <ul class="text-lg leading-relaxed">
-    <li>Seed a service with an inaccessible image repository.</li>
-    <li>Read the image name Compose attempted to pull.</li>
-    <li>Fix the image reference, or add the intended local <code>build:</code> definition.</li>
-  </ul>
-</div>
-
----
-layout: default
-class: slide-navy
----
-
-<div class="section-divider">
-  <div class="section-number">04</div>
-  <h1>Networking</h1>
-  <div class="subtitle">Service-name DNS inside; published ports outside</div>
-</div>
-
----
-layout: default
----
-
-<div class="eyebrow">Networking</div>
-
-# One project network is created for the stack
-
-<div class="grid grid-cols-3 gap-5 mt-10 items-center text-center">
-  <div class="card"><strong>web</strong><br><span style="color:var(--grey-secondary)">host:5100</span></div>
-  <div class="card-navy"><strong>api</strong><br><span style="color:var(--text-light-muted)">api:5101</span></div>
-  <div class="card"><strong>postgres</strong><br><span style="color:var(--grey-secondary)">postgres:5432</span></div>
-</div>
-
-<ul class="text-lg leading-relaxed mt-8">
-  <li>Services resolve each other by service name on the Compose network.</li>
-  <li><code>localhost</code> means the current container, not the host or another service.</li>
-  <li><code>ports: host:container</code> publishes a service to the host.</li>
-</ul>
-
----
-layout: default
-class: slide-lime
----
-
-<div class="content-frame">
-  <div class="eyebrow">Live checkpoint</div>
-
-  <h1>Diagnose network access in three steps</h1>
-
-  <div class="code-panel mt-6">
-    <div>docker compose exec api sh</div>
-    <div>curl http://api:5101</div>
-    <div>curl http://localhost:5100</div>
-  </div>
-
-  <p class="mt-6 text-lg">First use service DNS inside the network. Then remove <code>web</code>'s port mapping, restore it with the wrong host port, and finally correct it.</p>
-</div>
-
----
-layout: default
----
-
-<div class="eyebrow">Networking</div>
-
-# DNS does not publish a service to your laptop
-
-<div class="grid grid-cols-2 gap-8 mt-8">
-  <div class="card">
-    <h3>Inside the Compose network</h3>
-    <p><code>http://api:5101</code> reaches the API using its service name and container port.</p>
-  </div>
-  <div class="card-navy">
-    <h3>From the host browser</h3>
-    <p><code>http://localhost:5100</code> only works when the correct host port is mapped to the web container port.</p>
-  </div>
-</div>
-
----
-layout: default
-class: slide-navy
----
-
-<div class="section-divider">
-  <div class="section-number">05</div>
   <h1>Data &amp; Storage</h1>
-  <div class="subtitle">Keep state outside the container filesystem</div>
+  <div class="subtitle">Add stateful dependencies and keep their data outside containers</div>
 </div>
 
 ---
@@ -279,6 +219,7 @@ layout: default
 ---
 
 <div class="eyebrow">Data &amp; Storage</div>
+<div class="stage-label">Live build stage 02 · dependencies</div>
 
 # Named volumes keep MyTravels data
 
@@ -297,9 +238,45 @@ layout: default
 
 ---
 layout: default
+class: slide-lime
+---
+
+<div class="content-frame">
+  <div class="eyebrow">Live checkpoint</div>
+  <div class="stage-label">Live build timeline</div>
+  <div class="checkpoint-timeline">
+    <div class="checkpoint-step is-done"><span>01</span><strong>Foundation</strong></div>
+    <div class="checkpoint-step is-active"><span>02</span><strong>Dependencies</strong></div>
+    <div class="checkpoint-step"><span>03</span><strong>Database Flow</strong></div>
+    <div class="checkpoint-step"><span>04</span><strong>App Services</strong></div>
+    <div class="checkpoint-step"><span>05</span><strong>Front End</strong></div>
+    <div class="checkpoint-step"><span>06</span><strong>Reliability</strong></div>
+  </div>
+  <p class="checkpoint-note">Current pass: dependencies. Copy in PostgreSQL, RabbitMQ, and MinIO. The seeded issue is a bad relative bind-mount path.</p>
+
+  <h1>Add the stateful dependencies</h1>
+
+  <div class="code-panel mt-6">
+    <div>docker compose up postgres rabbitmq minio</div>
+    <div>docker compose ps</div>
+  </div>
+</div>
+
+---
+layout: default
 ---
 
 <div class="eyebrow">Live Diagnosis</div>
+<div class="stage-label">Live build timeline</div>
+<div class="checkpoint-timeline">
+  <div class="checkpoint-step is-done"><span>01</span><strong>Foundation</strong></div>
+  <div class="checkpoint-step is-active"><span>02</span><strong>Dependencies</strong></div>
+  <div class="checkpoint-step"><span>03</span><strong>Database Flow</strong></div>
+  <div class="checkpoint-step"><span>04</span><strong>App Services</strong></div>
+  <div class="checkpoint-step"><span>05</span><strong>Front End</strong></div>
+  <div class="checkpoint-step"><span>06</span><strong>Reliability</strong></div>
+</div>
+<p class="checkpoint-note">Current pass: dependencies. Seeded issue: a broken relative bind-mount path in PostgreSQL setup.</p>
 
 # Relative paths start at this compose file
 
@@ -323,29 +300,30 @@ class: slide-navy
 ---
 
 <div class="section-divider">
-  <div class="section-number">06</div>
-  <h1>Dependencies &amp; Quality</h1>
-  <div class="subtitle">Make the stack reliable and keep responsibilities clear</div>
+  <div class="section-number">04</div>
+  <h1>Dependency Flow</h1>
+  <div class="subtitle">Database jobs must wait for the right readiness signal</div>
 </div>
 
 ---
 layout: default
 ---
 
-<div class="eyebrow">Dependencies</div>
+<div class="eyebrow">Dependency Flow</div>
+<div class="stage-label">Live build stage 03 · database flow</div>
 
 # Start order is not application readiness
 
 <div class="grid grid-cols-3 gap-5 mt-8 items-center text-center">
   <div class="card"><strong>postgres</strong><br><span style="color:var(--grey-secondary)">healthy</span></div>
-  <div class="card-navy"><strong>migrate-core-db</strong><br><span style="color:var(--text-light-muted)">completed successfully</span></div>
-  <div class="card"><strong>api</strong><br><span style="color:var(--grey-secondary)">starts</span></div>
+  <div class="card-navy"><strong>cleanup-migrations</strong><br><span style="color:var(--text-light-muted)">runs once</span></div>
+  <div class="card"><strong>migrate-core-db</strong><br><span style="color:var(--grey-secondary)">completes successfully</span></div>
 </div>
 
 <ul class="text-lg leading-relaxed mt-8">
-  <li><code>depends_on</code> expresses the real order between services.</li>
+  <li><code>depends_on</code> must describe the real order between jobs and services.</li>
   <li><code>service_healthy</code> waits for a health check; <code>service_completed_successfully</code> waits for a one-off job.</li>
-  <li>Use the condition that matches the dependency's lifecycle.</li>
+  <li>The database flow should finish before the application services arrive.</li>
 </ul>
 
 ---
@@ -355,8 +333,249 @@ class: slide-lime
 
 <div class="content-frame">
   <div class="eyebrow">Live checkpoint</div>
+  <div class="stage-label">Live build timeline</div>
+  <div class="checkpoint-timeline">
+    <div class="checkpoint-step is-done"><span>01</span><strong>Foundation</strong></div>
+    <div class="checkpoint-step is-done"><span>02</span><strong>Dependencies</strong></div>
+    <div class="checkpoint-step is-active"><span>03</span><strong>Database Flow</strong></div>
+    <div class="checkpoint-step"><span>04</span><strong>App Services</strong></div>
+    <div class="checkpoint-step"><span>05</span><strong>Front End</strong></div>
+    <div class="checkpoint-step"><span>06</span><strong>Reliability</strong></div>
+  </div>
+  <p class="checkpoint-note">Current pass: database flow. Copy in the cleanup and migration jobs. The seeded issue is that the migration job does not wait for PostgreSQL health.</p>
 
-  <h1>Fix an incomplete dependency chain</h1>
+  <h1>Add cleanup and migration jobs</h1>
+
+  <div class="code-panel mt-6">
+    <div>migrate-core-db:</div>
+    <div>&nbsp;&nbsp;depends_on:</div>
+    <div>&nbsp;&nbsp;&nbsp;&nbsp;postgres:</div>
+    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;condition: service_healthy</div>
+  </div>
+</div>
+
+---
+layout: default
+class: slide-navy
+---
+
+<div class="section-divider">
+  <div class="section-number">05</div>
+  <h1>Images &amp; Registries</h1>
+  <div class="subtitle">Know when Compose builds and when it pulls</div>
+</div>
+
+---
+layout: default
+---
+
+<div class="eyebrow">Images &amp; Registries</div>
+<div class="stage-label">Live build stage 04 · app services</div>
+
+# Build locally or pull from a registry
+
+<div class="grid grid-cols-2 gap-8 mt-8">
+  <div class="card">
+    <h3><code>build:</code></h3>
+    <p>Build an image from a local Dockerfile and build context.</p>
+    <p>Used by the MyTravels API, messaging service, MCP server, and web UI.</p>
+  </div>
+  <div class="card-navy">
+    <h3><code>image:</code></h3>
+    <p>Use an image already available locally or pull it from a registry.</p>
+    <p>Used by PostgreSQL, RabbitMQ, and MinIO.</p>
+  </div>
+</div>
+
+---
+layout: default
+class: slide-lime
+---
+
+<div class="content-frame">
+  <div class="eyebrow">Live checkpoint</div>
+  <div class="stage-label">Live build timeline</div>
+  <div class="checkpoint-timeline">
+    <div class="checkpoint-step is-done"><span>01</span><strong>Foundation</strong></div>
+    <div class="checkpoint-step is-done"><span>02</span><strong>Dependencies</strong></div>
+    <div class="checkpoint-step is-done"><span>03</span><strong>Database Flow</strong></div>
+    <div class="checkpoint-step is-active"><span>04</span><strong>App Services</strong></div>
+    <div class="checkpoint-step"><span>05</span><strong>Front End</strong></div>
+    <div class="checkpoint-step"><span>06</span><strong>Reliability</strong></div>
+  </div>
+  <p class="checkpoint-note">Current pass: app services. Copy in the API, messaging worker, and MCP blocks, then run the stack. The seeded issue is a pull-access error on the API image.</p>
+
+  <h1>Add the app services and run the stack</h1>
+
+  <div class="code-panel mt-6">
+    <div>docker compose up --build</div>
+    <div>docker compose ps</div>
+    <div>docker compose logs -f api</div>
+  </div>
+</div>
+
+---
+layout: default
+---
+
+<div class="eyebrow">Live Diagnosis</div>
+<div class="stage-label">Live build timeline</div>
+<div class="checkpoint-timeline">
+  <div class="checkpoint-step is-done"><span>01</span><strong>Foundation</strong></div>
+  <div class="checkpoint-step is-done"><span>02</span><strong>Dependencies</strong></div>
+  <div class="checkpoint-step is-done"><span>03</span><strong>Database Flow</strong></div>
+  <div class="checkpoint-step is-active"><span>04</span><strong>App Services</strong></div>
+  <div class="checkpoint-step"><span>05</span><strong>Front End</strong></div>
+  <div class="checkpoint-step"><span>06</span><strong>Reliability</strong></div>
+</div>
+<p class="checkpoint-note">Current pass: app services. Seeded issue: Compose tries to pull an image that should have been built locally.</p>
+
+# Pull access denied is a useful clue
+
+<div class="grid grid-cols-2 gap-8 mt-8 items-center">
+  <div class="code-panel">
+    <div>pull access denied for</div>
+    <div>mytravels-private/api,</div>
+    <div>repository does not exist or</div>
+    <div>may require 'docker login'</div>
+  </div>
+  <ul class="text-lg leading-relaxed">
+    <li>Seed a service with an inaccessible image repository.</li>
+    <li>Read the image name Compose attempted to pull.</li>
+    <li>Fix the image reference, or add the intended local <code>build:</code> definition.</li>
+  </ul>
+</div>
+
+---
+layout: default
+class: slide-navy
+---
+
+<div class="section-divider">
+  <div class="section-number">06</div>
+  <h1>Networking</h1>
+  <div class="subtitle">Service-name DNS inside; published ports outside</div>
+</div>
+
+---
+layout: default
+---
+
+<div class="eyebrow">Networking</div>
+<div class="stage-label">Live build stage 05 · front end</div>
+
+# One project network is created for the stack
+
+<div class="grid grid-cols-3 gap-5 mt-10 items-center text-center">
+  <div class="card"><strong>web</strong><br><span style="color:var(--grey-secondary)">host:5100</span></div>
+  <div class="card-navy"><strong>api</strong><br><span style="color:var(--text-light-muted)">api:5101</span></div>
+  <div class="card"><strong>postgres</strong><br><span style="color:var(--grey-secondary)">postgres:5432</span></div>
+</div>
+
+<ul class="text-lg leading-relaxed mt-8">
+  <li>Services resolve each other by service name on the Compose network.</li>
+  <li><code>localhost</code> means the current container, not the host or another service.</li>
+  <li><code>ports: host:container</code> publishes a service to the host.</li>
+</ul>
+
+---
+layout: default
+class: slide-lime
+---
+
+<div class="content-frame">
+  <div class="eyebrow">Live checkpoint</div>
+  <div class="stage-label">Live build timeline</div>
+  <div class="checkpoint-timeline">
+    <div class="checkpoint-step is-done"><span>01</span><strong>Foundation</strong></div>
+    <div class="checkpoint-step is-done"><span>02</span><strong>Dependencies</strong></div>
+    <div class="checkpoint-step is-done"><span>03</span><strong>Database Flow</strong></div>
+    <div class="checkpoint-step is-done"><span>04</span><strong>App Services</strong></div>
+    <div class="checkpoint-step is-active"><span>05</span><strong>Front End</strong></div>
+    <div class="checkpoint-step"><span>06</span><strong>Reliability</strong></div>
+  </div>
+  <p class="checkpoint-note">Current pass: front end. First show the web service with no published port, then restore it with the wrong host port, and finally correct it.</p>
+
+  <h1>Publish the web UI to the host</h1>
+
+  <div class="code-panel mt-6">
+    <div>docker compose exec api sh</div>
+    <div>curl http://api:5101</div>
+    <div>curl http://localhost:5100</div>
+  </div>
+</div>
+
+---
+layout: default
+---
+
+<div class="eyebrow">Networking</div>
+<div class="stage-label">Live build stage 05 · front end</div>
+
+# DNS does not publish a service to your laptop
+
+<div class="grid grid-cols-2 gap-8 mt-8">
+  <div class="card">
+    <h3>Inside the Compose network</h3>
+    <p><code>http://api:5101</code> reaches the API using its service name and container port.</p>
+  </div>
+  <div class="card-navy">
+    <h3>From the host browser</h3>
+    <p><code>http://localhost:5100</code> only works when the correct host port is mapped to the web container port.</p>
+  </div>
+</div>
+
+---
+layout: default
+class: slide-navy
+---
+
+<div class="section-divider">
+  <div class="section-number">07</div>
+  <h1>Reliability &amp; Quality</h1>
+  <div class="subtitle">Finish the build by declaring the real dependency chain and keeping concerns separate</div>
+</div>
+
+---
+layout: default
+---
+
+<div class="eyebrow">Reliability</div>
+<div class="stage-label">Live build stage 06 · reliability checks</div>
+
+# The API must wait for migrations, not just Postgres
+
+<div class="grid grid-cols-3 gap-5 mt-8 items-center text-center">
+  <div class="card"><strong>postgres</strong><br><span style="color:var(--grey-secondary)">healthy</span></div>
+  <div class="card-navy"><strong>migrate-core-db</strong><br><span style="color:var(--text-light-muted)">completed successfully</span></div>
+  <div class="card"><strong>api</strong><br><span style="color:var(--grey-secondary)">starts after both</span></div>
+</div>
+
+<ul class="text-lg leading-relaxed mt-8">
+  <li><code>depends_on</code> should reflect the full chain, not just the nearest container.</li>
+  <li><code>service_completed_successfully</code> is the right condition for one-off jobs such as migrations.</li>
+  <li>Reliability comes from declaring the dependency your application actually has.</li>
+</ul>
+
+---
+layout: default
+class: slide-lime
+---
+
+<div class="content-frame">
+  <div class="eyebrow">Live checkpoint</div>
+  <div class="stage-label">Live build timeline</div>
+  <div class="checkpoint-timeline">
+    <div class="checkpoint-step is-done"><span>01</span><strong>Foundation</strong></div>
+    <div class="checkpoint-step is-done"><span>02</span><strong>Dependencies</strong></div>
+    <div class="checkpoint-step is-done"><span>03</span><strong>Database Flow</strong></div>
+    <div class="checkpoint-step is-done"><span>04</span><strong>App Services</strong></div>
+    <div class="checkpoint-step is-done"><span>05</span><strong>Front End</strong></div>
+    <div class="checkpoint-step is-active"><span>06</span><strong>Reliability</strong></div>
+  </div>
+  <p class="checkpoint-note">Current pass: reliability. Seeded issue: the API starts without waiting for migrations to finish.</p>
+
+  <h1>Fix the final dependency chain</h1>
 
   <div class="code-panel mt-6">
     <div>api:</div>
@@ -364,8 +583,6 @@ class: slide-lime
     <div>&nbsp;&nbsp;&nbsp;&nbsp;migrate-core-db:</div>
     <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;condition: service_completed_successfully</div>
   </div>
-
-  <p class="mt-6 text-lg">Remove this dependency, observe the API fail before its schema exists, then restore it and verify with <code>docker compose logs -f api</code>.</p>
 </div>
 
 ---
@@ -373,6 +590,7 @@ layout: default
 ---
 
 <div class="eyebrow">Quality Iteration</div>
+<div class="stage-label">Live build stage 06 · reliability checks</div>
 
 # Put each concern in the right place
 
@@ -394,6 +612,7 @@ layout: default
 ---
 
 <div class="eyebrow">Quality Iteration</div>
+<div class="stage-label">Live build stage 06 · reliability checks</div>
 
 # Keep environment configuration outside the image
 
@@ -422,7 +641,7 @@ layout: default
 # Compose is local orchestration, not the whole production story
 
 <ul class="checklist text-lg mt-8">
-  <li>Profiles let one file support optional services, such as observability.</li>
+  <li>Optional observability can still be layered in afterward without changing the whole teaching flow.</li>
   <li>Multiple Compose files can layer environment-specific overrides.</li>
   <li>Kubernetes adds scheduling, scaling, and self-healing for larger deployments.</li>
 </ul>
@@ -436,9 +655,10 @@ layout: default
 # Common pitfalls, recap
 
 <ul class="checklist text-lg mt-8">
+  <li>Compose files are easier to teach when you build them in small, runnable layers.</li>
+  <li>Resolve bind mounts and build contexts relative to the Compose file.</li>
   <li>Check whether Compose should build an image locally or pull it from a registry.</li>
   <li>Use service DNS only inside the Compose network; publish the right host port for local access.</li>
-  <li>Resolve bind mounts and build contexts relative to the Compose file.</li>
   <li>Declare every real dependency and wait for the correct readiness condition.</li>
   <li>Keep reusable image behaviour in Dockerfiles and environment-specific wiring in Compose.</li>
 </ul>
