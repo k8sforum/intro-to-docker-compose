@@ -1,6 +1,7 @@
 ---
 theme: default
-title: Kubernetes Forum
+title: "k8s Forum: Mission Composable"
+favicon: /favicon.svg
 css: unocss
 layout: cover
 class: slide-navy
@@ -10,7 +11,7 @@ class: slide-navy
 
 # Kubernetes Forum
 
-<div class="subtitle">Docker Compose</div>
+<div class="subtitle">Mission:Composable</div>
 
 <div class="absolute bottom-8 left-8 text-sm" style="color:var(--text-light-muted)">
 Presented by Liam Carver, Tshepo Ntlhokoa &amp; Vincent Chegwidden
@@ -24,17 +25,18 @@ entelect.co.za
 layout: default
 ---
 
-<div class="eyebrow">Agenda</div>
+<div class="content-frame agenda-slide">
+  <div class="eyebrow">Agenda</div>
+  <h1>What we'll cover today</h1>
 
-# What we'll cover today
-
-<div class="grid grid-cols-2 gap-x-12 gap-y-6 mt-8">
-  <div class="border-b pb-2" style="border-color:var(--grey-divider)"><span style="color:var(--lime)">01</span>&nbsp;&nbsp;Why Compose?</div>
-  <div class="border-b pb-2" style="border-color:var(--grey-divider)"><span style="color:var(--lime)">02</span>&nbsp;&nbsp;Core Concepts</div>
-  <div class="border-b pb-2" style="border-color:var(--grey-divider)"><span style="color:var(--lime)">03</span>&nbsp;&nbsp;Images &amp; Registries</div>
-  <div class="border-b pb-2" style="border-color:var(--grey-divider)"><span style="color:var(--lime)">04</span>&nbsp;&nbsp;Networking</div>
-  <div class="border-b pb-2" style="border-color:var(--grey-divider)"><span style="color:var(--lime)">05</span>&nbsp;&nbsp;Data &amp; Storage</div>
-  <div class="border-b pb-2" style="border-color:var(--grey-divider)"><span style="color:var(--lime)">06</span>&nbsp;&nbsp;Dependencies &amp; Quality</div>
+  <div class="agenda-grid">
+    <div class="agenda-item"><span class="agenda-number">01</span><span>Why Compose?</span></div>
+    <div class="agenda-item"><span class="agenda-number">02</span><span>Core Concepts</span></div>
+    <div class="agenda-item"><span class="agenda-number">03</span><span>Images &amp; Registries</span></div>
+    <div class="agenda-item"><span class="agenda-number">04</span><span>Networking</span></div>
+    <div class="agenda-item"><span class="agenda-number">05</span><span>Data &amp; Storage</span></div>
+    <div class="agenda-item"><span class="agenda-number">06</span><span>Dependencies &amp; Quality</span></div>
+  </div>
 </div>
 
 ---
@@ -42,12 +44,11 @@ layout: default
 class: slide-navy
 ---
 
-<div class="eyebrow">01</div>
-<div class="section-number">01</div>
-
-# Why Compose?
-
-<div class="subtitle">One application, many cooperating containers</div>
+<div class="section-divider">
+  <div class="section-number">01</div>
+  <h1>Why Compose?</h1>
+  <div class="subtitle">One application, many cooperating containers</div>
+</div>
 
 ---
 layout: default
@@ -74,12 +75,11 @@ layout: default
 class: slide-navy
 ---
 
-<div class="eyebrow">02</div>
-<div class="section-number">02</div>
-
-# Core Concepts
-
-<div class="subtitle">Services, networks, volumes, and everyday commands</div>
+<div class="section-divider">
+  <div class="section-number">02</div>
+  <h1>Core Concepts</h1>
+  <div class="subtitle">Services, networks, volumes, and everyday commands</div>
+</div>
 
 ---
 layout: default
@@ -143,12 +143,11 @@ layout: default
 class: slide-navy
 ---
 
-<div class="eyebrow">03</div>
-<div class="section-number">03</div>
-
-# Images &amp; Registries
-
-<div class="subtitle">Know when Compose builds and when it pulls</div>
+<div class="section-divider">
+  <div class="section-number">03</div>
+  <h1>Images &amp; Registries</h1>
+  <div class="subtitle">Know when Compose builds and when it pulls</div>
+</div>
 
 ---
 layout: default
@@ -198,12 +197,11 @@ layout: default
 class: slide-navy
 ---
 
-<div class="eyebrow">04</div>
-<div class="section-number">04</div>
-
-# Networking
-
-<div class="subtitle">Service-name DNS inside; published ports outside</div>
+<div class="section-divider">
+  <div class="section-number">04</div>
+  <h1>Networking</h1>
+  <div class="subtitle">Service-name DNS inside; published ports outside</div>
+</div>
 
 ---
 layout: default
@@ -266,12 +264,11 @@ layout: default
 class: slide-navy
 ---
 
-<div class="eyebrow">05</div>
-<div class="section-number">05</div>
-
-# Data &amp; Storage
-
-<div class="subtitle">Keep state outside the container filesystem</div>
+<div class="section-divider">
+  <div class="section-number">05</div>
+  <h1>Data &amp; Storage</h1>
+  <div class="subtitle">Keep state outside the container filesystem</div>
+</div>
 
 ---
 layout: default
@@ -321,12 +318,11 @@ layout: default
 class: slide-navy
 ---
 
-<div class="eyebrow">06</div>
-<div class="section-number">06</div>
-
-# Dependencies &amp; Quality
-
-<div class="subtitle">Make the stack reliable and keep responsibilities clear</div>
+<div class="section-divider">
+  <div class="section-number">06</div>
+  <h1>Dependencies &amp; Quality</h1>
+  <div class="subtitle">Make the stack reliable and keep responsibilities clear</div>
+</div>
 
 ---
 layout: default

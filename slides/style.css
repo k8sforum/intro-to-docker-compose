@@ -2,7 +2,7 @@
    Palette and slide-type styles derived from ../../presentation-visual-template.md */
 
 :root {
-  --navy-deep: #00263d;
+  --navy-deep: #031F39;
   --ink-dark: #102033;
   --text-navy: #002b49;
   --lime: #95c11f;
@@ -20,6 +20,10 @@
   font-family: "Aptos", "Avenir Next", "Segoe UI", sans-serif;
   color: var(--text-navy);
   background: var(--white);
+}
+
+.slidev-layout:not(.cover):not(.slide-navy):not(.slide-lime) {
+  padding: 2.8rem 3.1rem 2.7rem;
 }
 
 .slidev-layout h1,
@@ -75,10 +79,76 @@
 .slide-navy .subtitle { color: var(--text-light-muted); }
 
 .section-number {
-  font-size: 4.5rem;
+  font-size: 4.75rem;
   color: var(--lime);
   line-height: 1;
-  margin-bottom: 0.2em;
+  margin-bottom: 0.18em;
+  font-weight: 400;
+}
+
+.section-divider {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 0.2rem;
+}
+
+.section-divider h1 {
+  margin: 0;
+  color: var(--white);
+  font-size: 2.35rem;
+  line-height: 1.08;
+}
+
+.section-divider .subtitle {
+  margin-top: 0.45rem;
+  font-size: 1rem;
+  color: var(--text-light-muted);
+}
+
+.content-frame {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.content-frame h1 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.agenda-slide {
+  padding-top: 0.3rem;
+}
+
+.agenda-slide h1 {
+  font-size: 2.2rem;
+  margin-bottom: 2rem;
+}
+
+.agenda-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 2rem;
+  row-gap: 1.15rem;
+}
+
+.agenda-item {
+  display: flex;
+  align-items: center;
+  gap: 0.95rem;
+  min-height: 4.5rem;
+  border-top: 1px solid var(--grey-divider);
+  padding-top: 0.9rem;
+  font-size: 1.05rem;
+}
+
+.agenda-number {
+  min-width: 1.8rem;
+  color: var(--lime);
+  font-weight: 400;
 }
 
 /* Off-white alternate background for concept/comparison slides */
