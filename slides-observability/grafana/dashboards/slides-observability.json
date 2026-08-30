@@ -117,7 +117,7 @@
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
-            "sum"
+            "lastNotNull"
           ],
           "fields": "",
           "values": false
@@ -134,7 +134,8 @@
           "editorMode": "code",
           "expr": "sum(slide_view_total{deck=\"docker-compose-forum\"})",
           "legendFormat": "",
-          "range": true,
+          "instant": true,
+          "range": false,
           "refId": "A"
         }
       ],
@@ -295,47 +296,22 @@
           "legendFormat": "{{slide_number}} {{slide_title}}",
           "range": false,
           "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "editorMode": "code",
-          "expr": "histogram_quantile(0.5, sum by (le, slide_number, slide_title) (rate(slide_dwell_seconds_bucket{deck=\"docker-compose-forum\"}[5m])))",
-          "format": "table",
-          "instant": true,
-          "legendFormat": "{{slide_number}} {{slide_title}}",
-          "range": false,
-          "refId": "B"
         }
       ],
-      "title": "Views And Median Dwell",
+      "title": "Views By Slide",
       "transformations": [
-        {
-          "id": "joinByField",
-          "options": {
-            "byField": "slide_number",
-            "mode": "outer"
-          }
-        },
         {
           "id": "organize",
           "options": {
             "excludeByName": {
-              "Time 1": true,
-              "Time 2": true,
-              "__name__ 1": true,
-              "__name__ 2": true,
-              "deck 1": true,
-              "deck 2": true,
-              "slide_title 2": true
+              "Time": true,
+              "__name__": true,
+              "deck": true
             },
             "renameByName": {
-              "slide_number 1": "Slide",
-              "slide_title 1": "Title",
-              "Value #A": "Views",
-              "Value #B": "Median dwell (5m)"
+              "slide_number": "Slide",
+              "slide_title": "Title",
+              "Value": "Views"
             }
           }
         }
