@@ -128,14 +128,16 @@ layout: default
 class: slide-lime
 ---
 
-<div class="eyebrow">Live checkpoint</div>
+<div class="content-frame">
+  <div class="eyebrow">Live checkpoint</div>
 
-# Start the MyTravels stack
+  <h1>Start the MyTravels stack</h1>
 
-<div class="code-panel mt-6">
-  <div>docker compose up --build</div>
-  <div>docker compose ps</div>
-  <div>docker compose logs -f api</div>
+  <div class="code-panel mt-6">
+    <div>docker compose up --build</div>
+    <div>docker compose ps</div>
+    <div>docker compose logs -f api</div>
+  </div>
 </div>
 
 ---
@@ -228,17 +230,19 @@ layout: default
 class: slide-lime
 ---
 
-<div class="eyebrow">Live checkpoint</div>
+<div class="content-frame">
+  <div class="eyebrow">Live checkpoint</div>
 
-# Diagnose network access in three steps
+  <h1>Diagnose network access in three steps</h1>
 
-<div class="code-panel mt-6">
-  <div>docker compose exec api sh</div>
-  <div>curl http://api:5101</div>
-  <div>curl http://localhost:5100</div>
+  <div class="code-panel mt-6">
+    <div>docker compose exec api sh</div>
+    <div>curl http://api:5101</div>
+    <div>curl http://localhost:5100</div>
+  </div>
+
+  <p class="mt-6 text-lg">First use service DNS inside the network. Then remove <code>web</code>'s port mapping, restore it with the wrong host port, and finally correct it.</p>
 </div>
-
-<p class="mt-6 text-lg">First use service DNS inside the network. Then remove <code>web</code>'s port mapping, restore it with the wrong host port, and finally correct it.</p>
 
 ---
 layout: default
@@ -349,18 +353,20 @@ layout: default
 class: slide-lime
 ---
 
-<div class="eyebrow">Live checkpoint</div>
+<div class="content-frame">
+  <div class="eyebrow">Live checkpoint</div>
 
-# Fix an incomplete dependency chain
+  <h1>Fix an incomplete dependency chain</h1>
 
-<div class="code-panel mt-6">
-  <div>api:</div>
-  <div>&nbsp;&nbsp;depends_on:</div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;migrate-core-db:</div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;condition: service_completed_successfully</div>
+  <div class="code-panel mt-6">
+    <div>api:</div>
+    <div>&nbsp;&nbsp;depends_on:</div>
+    <div>&nbsp;&nbsp;&nbsp;&nbsp;migrate-core-db:</div>
+    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;condition: service_completed_successfully</div>
+  </div>
+
+  <p class="mt-6 text-lg">Remove this dependency, observe the API fail before its schema exists, then restore it and verify with <code>docker compose logs -f api</code>.</p>
 </div>
-
-<p class="mt-6 text-lg">Remove this dependency, observe the API fail before its schema exists, then restore it and verify with <code>docker compose logs -f api</code>.</p>
 
 ---
 layout: default
