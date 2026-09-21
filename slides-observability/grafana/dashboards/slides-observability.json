@@ -44,7 +44,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 6,
+        "w": 12,
         "x": 0,
         "y": 0
       },
@@ -78,68 +78,6 @@
         }
       ],
       "title": "Current Slide",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 6,
-        "x": 6,
-        "y": 0
-      },
-      "id": 2,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "11.4.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "editorMode": "code",
-          "expr": "sum(slide_view_total{deck=\"docker-compose-forum\"})",
-          "legendFormat": "",
-          "instant": true,
-          "range": false,
-          "refId": "A"
-        }
-      ],
-      "title": "Total Slide Views",
       "type": "stat"
     },
     {

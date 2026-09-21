@@ -46,7 +46,7 @@ layout: default
 
 <div class="content-frame roadmap-slide">
   <div class="eyebrow">Live build roadmap</div>
-  <h1>We will assemble the file in six passes</h1>
+  <h1>We will assemble the file in six stages</h1>
 
   <div class="roadmap-timeline">
     <div class="timeline-step is-active">
@@ -171,7 +171,7 @@ class: slide-lime
     <div class="checkpoint-step"><span>05</span><strong>Front End</strong></div>
     <div class="checkpoint-step"><span>06</span><strong>Reliability</strong></div>
   </div>
-  <p class="checkpoint-note">Current pass: foundation. Create the top-level compose shell before adding any real services.</p>
+  <p class="checkpoint-note">Start by creating the top-level compose shell before adding any real services.</p>
 
   <h1>Create the compose shell</h1>
 
@@ -252,7 +252,7 @@ class: slide-lime
     <div class="checkpoint-step"><span>05</span><strong>Front End</strong></div>
     <div class="checkpoint-step"><span>06</span><strong>Reliability</strong></div>
   </div>
-  <p class="checkpoint-note">Current pass: dependencies. Copy in PostgreSQL, RabbitMQ, and MinIO. The seeded issue is a bad relative bind-mount path.</p>
+  <p class="checkpoint-note">Add PostgreSQL, RabbitMQ, and MinIO, then bring the dependency layer up.</p>
 
   <h1>Add the stateful dependencies</h1>
 
@@ -276,7 +276,7 @@ layout: default
   <div class="checkpoint-step"><span>05</span><strong>Front End</strong></div>
   <div class="checkpoint-step"><span>06</span><strong>Reliability</strong></div>
 </div>
-<p class="checkpoint-note">Current pass: dependencies. Seeded issue: a broken relative bind-mount path in PostgreSQL setup.</p>
+<p class="checkpoint-note">When a bind mount points at the wrong place, Compose tells you exactly which path it could not resolve.</p>
 
 # Relative paths start at this compose file
 
@@ -342,7 +342,7 @@ class: slide-lime
     <div class="checkpoint-step"><span>05</span><strong>Front End</strong></div>
     <div class="checkpoint-step"><span>06</span><strong>Reliability</strong></div>
   </div>
-  <p class="checkpoint-note">Current pass: database flow. Copy in the cleanup and migration jobs. The seeded issue is that the migration job does not wait for PostgreSQL health.</p>
+  <p class="checkpoint-note">Add the cleanup and migration jobs, then check whether the database flow waits for the right readiness signal.</p>
 
   <h1>Add cleanup and migration jobs</h1>
 
@@ -403,7 +403,7 @@ class: slide-lime
     <div class="checkpoint-step"><span>05</span><strong>Front End</strong></div>
     <div class="checkpoint-step"><span>06</span><strong>Reliability</strong></div>
   </div>
-  <p class="checkpoint-note">Current pass: app services. Copy in the API, messaging worker, and MCP blocks, then run the stack. The seeded issue is a pull-access error on the API image.</p>
+  <p class="checkpoint-note">Add the API, messaging worker, and MCP services, then run the stack and inspect the image resolution behavior.</p>
 
   <h1>Add the app services and run the stack</h1>
 
@@ -428,7 +428,7 @@ layout: default
   <div class="checkpoint-step"><span>05</span><strong>Front End</strong></div>
   <div class="checkpoint-step"><span>06</span><strong>Reliability</strong></div>
 </div>
-<p class="checkpoint-note">Current pass: app services. Seeded issue: Compose tries to pull an image that should have been built locally.</p>
+<p class="checkpoint-note">If Compose reaches for a registry instead of building locally, the image reference is telling you something important.</p>
 
 # Pull access denied is a useful clue
 
@@ -494,7 +494,7 @@ class: slide-lime
     <div class="checkpoint-step is-active"><span>05</span><strong>Front End</strong></div>
     <div class="checkpoint-step"><span>06</span><strong>Reliability</strong></div>
   </div>
-  <p class="checkpoint-note">Current pass: front end. First show the web service with no published port, then restore it with the wrong host port, and finally correct it.</p>
+  <p class="checkpoint-note">Bring in the web service, verify what works inside the Compose network, and then publish it correctly to the host.</p>
 
   <h1>Publish the web UI to the host</h1>
 
@@ -573,7 +573,7 @@ class: slide-lime
     <div class="checkpoint-step is-done"><span>05</span><strong>Front End</strong></div>
     <div class="checkpoint-step is-active"><span>06</span><strong>Reliability</strong></div>
   </div>
-  <p class="checkpoint-note">Current pass: reliability. Seeded issue: the API starts without waiting for migrations to finish.</p>
+  <p class="checkpoint-note">Finish by checking that the API waits for the migration job, not only for PostgreSQL to start.</p>
 
   <h1>Fix the final dependency chain</h1>
 
