@@ -33,6 +33,7 @@ services:
     volumes:
       - mqdata:/var/lib/rabbitmq
       - mqconfig:/etc/rabbitmq
+      # Fix: ../intro-to-k8s/1-dockerize/observability/rabbitmq-enabled_plugins:/etc/rabbitmq/enabled_plugins:ro
       - ./missing-observability/rabbitmq-enabled_plugins:/etc/rabbitmq/enabled_plugins:ro
     healthcheck:
       test: ["CMD", "rabbitmqctl", "status"]
@@ -52,6 +53,7 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+      # Fix: ../intro-to-k8s/scripts/init-dbs.sql:/docker-entrypoint-initdb.d/init-dbs.sql
       - ./missing-script/init-dbs.sql:/docker-entrypoint-initdb.d/init-dbs.sql
     healthcheck:
       test: ["CMD-SHELL", "PGPASSWORD=${POSTGRES_PASSWORD} pg_isready -h localhost -p 5432 -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]

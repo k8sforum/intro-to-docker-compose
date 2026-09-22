@@ -34,3 +34,7 @@ services:
     restart: "no"
     environment:
       ConnectionStrings__CoreDbContext: ${CORE_DB_CONTEXT}
+    depends_on:
+      cleanup-migrations:
+        # Fix: one-off jobs should use service_completed_successfully.
+        condition: service_healthy

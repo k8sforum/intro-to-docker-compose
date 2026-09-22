@@ -322,7 +322,8 @@ layout: default
 
 <ul class="text-lg leading-relaxed mt-8">
   <li><code>depends_on</code> must describe the real order between jobs and services.</li>
-  <li><code>service_healthy</code> waits for a health check; <code>service_completed_successfully</code> waits for a one-off job.</li>
+  <li><code>service_healthy</code> only works for services with health checks.</li>
+  <li><code>service_completed_successfully</code> waits for a one-off job to finish cleanly.</li>
   <li>The database flow should finish before the application services arrive.</li>
 </ul>
 
@@ -342,15 +343,15 @@ class: slide-lime
     <div class="checkpoint-step"><span>05</span><strong>Front End</strong></div>
     <div class="checkpoint-step"><span>06</span><strong>Reliability</strong></div>
   </div>
-  <p class="checkpoint-note">Add the cleanup and migration jobs, then check whether the database flow waits for the right readiness signal.</p>
+  <p class="checkpoint-note">Add the cleanup and migration jobs, then check whether the migration job waits for the cleanup job correctly.</p>
 
   <h1>Add cleanup and migration jobs</h1>
 
   <div class="code-panel mt-6">
     <div>migrate-core-db:</div>
     <div>&nbsp;&nbsp;depends_on:</div>
-    <div>&nbsp;&nbsp;&nbsp;&nbsp;postgres:</div>
-    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;condition: service_healthy</div>
+    <div>&nbsp;&nbsp;&nbsp;&nbsp;cleanup-migrations:</div>
+    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;condition: service_completed_successfully</div>
   </div>
 </div>
 
