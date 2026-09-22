@@ -87,7 +87,7 @@ layout: default
     </div>
   </div>
 
-  <p class="roadmap-note">Every topic feeds the next live build step. We add one layer, read one failure, then repair it before moving on.</p>
+  <p class="roadmap-note">Every topic feeds the next live build step. Each layer exposes a different kind of Compose problem.</p>
 </div>
 
 ---
@@ -171,7 +171,7 @@ class: slide-lime
     <div class="checkpoint-step"><span>05</span><strong>Front End</strong></div>
     <div class="checkpoint-step"><span>06</span><strong>Reliability</strong></div>
   </div>
-  <p class="checkpoint-note">Start by creating the top-level compose shell before adding any real services.</p>
+  <p class="checkpoint-note">A Compose project needs a clear top-level shape before the service details arrive.</p>
 
   <h1>Create the compose shell</h1>
 
@@ -252,7 +252,7 @@ class: slide-lime
     <div class="checkpoint-step"><span>05</span><strong>Front End</strong></div>
     <div class="checkpoint-step"><span>06</span><strong>Reliability</strong></div>
   </div>
-  <p class="checkpoint-note">Add PostgreSQL, RabbitMQ, and MinIO, then bring the dependency layer up.</p>
+  <p class="checkpoint-note">Stateful dependencies introduce ports, persistent volumes, and host-file bind mounts.</p>
 
   <h1>Add the stateful dependencies</h1>
 
@@ -276,7 +276,7 @@ layout: default
   <div class="checkpoint-step"><span>05</span><strong>Front End</strong></div>
   <div class="checkpoint-step"><span>06</span><strong>Reliability</strong></div>
 </div>
-<p class="checkpoint-note">When a bind mount points at the wrong place, Compose tells you exactly which path it could not resolve.</p>
+<p class="checkpoint-note">Bind mounts fail when the host path, container path, or file-vs-directory shape does not match.</p>
 
 # Relative paths start at this compose file
 
@@ -288,9 +288,9 @@ layout: default
     <div>&nbsp;&nbsp;&nbsp;&nbsp;initdb.d/init-dbs.sql</div>
   </div>
   <ul class="text-lg leading-relaxed">
-    <li>Break a bind-mount or build-context path.</li>
-    <li>Read the missing path reported by Compose.</li>
-    <li>Fix it relative to <code>docker-compose.yml</code>, not the folder the file was copied from.</li>
+    <li>Host paths are resolved relative to <code>docker-compose.yml</code>.</li>
+    <li>The container path must be absolute.</li>
+    <li>Docker distinguishes file mounts from directory mounts.</li>
   </ul>
 </div>
 
@@ -343,15 +343,14 @@ class: slide-lime
     <div class="checkpoint-step"><span>05</span><strong>Front End</strong></div>
     <div class="checkpoint-step"><span>06</span><strong>Reliability</strong></div>
   </div>
-  <p class="checkpoint-note">Add the cleanup and migration jobs, then check whether the migration job waits for the cleanup job correctly.</p>
+  <p class="checkpoint-note">Database jobs expose the difference between service health and one-off job completion.</p>
 
-  <h1>Add cleanup and migration jobs</h1>
+  <h1>Coordinate cleanup and migration jobs</h1>
 
   <div class="code-panel mt-6">
-    <div>migrate-core-db:</div>
-    <div>&nbsp;&nbsp;depends_on:</div>
-    <div>&nbsp;&nbsp;&nbsp;&nbsp;cleanup-migrations:</div>
-    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;condition: service_completed_successfully</div>
+    <div>postgres: health check</div>
+    <div>cleanup-migrations: one-off job</div>
+    <div>migrate-core-db: one-off job</div>
   </div>
 </div>
 
@@ -404,9 +403,9 @@ class: slide-lime
     <div class="checkpoint-step"><span>05</span><strong>Front End</strong></div>
     <div class="checkpoint-step"><span>06</span><strong>Reliability</strong></div>
   </div>
-  <p class="checkpoint-note">Add the API, messaging worker, and MCP services, then run the stack and inspect the image resolution behavior.</p>
+  <p class="checkpoint-note">Application services expose the boundary between local builds and registry pulls.</p>
 
-  <h1>Add the app services and run the stack</h1>
+  <h1>Bring in the application services</h1>
 
   <div class="code-panel mt-6">
     <div>docker compose up --build</div>
@@ -441,9 +440,9 @@ layout: default
     <div>may require 'docker login'</div>
   </div>
   <ul class="text-lg leading-relaxed">
-    <li>Seed a service with an inaccessible image repository.</li>
-    <li>Read the image name Compose attempted to pull.</li>
-    <li>Fix the image reference, or add the intended local <code>build:</code> definition.</li>
+    <li><code>image:</code> names what Compose should run.</li>
+    <li><code>build:</code> tells Compose how to create it locally.</li>
+    <li>A registry error often means Compose was never told to build.</li>
   </ul>
 </div>
 
@@ -495,9 +494,9 @@ class: slide-lime
     <div class="checkpoint-step is-active"><span>05</span><strong>Front End</strong></div>
     <div class="checkpoint-step"><span>06</span><strong>Reliability</strong></div>
   </div>
-  <p class="checkpoint-note">Bring in the web service, verify what works inside the Compose network, and then publish it correctly to the host.</p>
+  <p class="checkpoint-note">The web service separates in-network access from host-browser access.</p>
 
-  <h1>Publish the web UI to the host</h1>
+  <h1>Expose the web UI to the host</h1>
 
   <div class="code-panel mt-6">
     <div>docker compose exec api sh</div>
@@ -574,15 +573,14 @@ class: slide-lime
     <div class="checkpoint-step is-done"><span>05</span><strong>Front End</strong></div>
     <div class="checkpoint-step is-active"><span>06</span><strong>Reliability</strong></div>
   </div>
-  <p class="checkpoint-note">Finish by checking that the API waits for the migration job, not only for PostgreSQL to start.</p>
+  <p class="checkpoint-note">The final stack depends on the full readiness chain, not just the nearest container.</p>
 
-  <h1>Fix the final dependency chain</h1>
+  <h1>Verify the final dependency chain</h1>
 
   <div class="code-panel mt-6">
-    <div>api:</div>
-    <div>&nbsp;&nbsp;depends_on:</div>
-    <div>&nbsp;&nbsp;&nbsp;&nbsp;migrate-core-db:</div>
-    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;condition: service_completed_successfully</div>
+    <div>postgres: service health</div>
+    <div>migrate-core-db: job completion</div>
+    <div>api: application readiness</div>
   </div>
 </div>
 
