@@ -3,6 +3,7 @@ services:
     container_name: mytravels-api
     image: mytravels-api:v1.0.8
     build:
+      # Local build keeps the demo independent from a pushed API image.
       context: ../intro-to-k8s/src
       dockerfile: api/mytravels.api/Dockerfile
     environment:
@@ -17,9 +18,11 @@ services:
       MinIO__AccessKey: ${MINIO_ROOT_USER}
       MinIO__SecretKey: ${MINIO_ROOT_PASSWORD}
     ports:
+      # Host access for calling the API directly during the demo.
       - "5101:5101"
     depends_on:
       rabbitmq:
+        # This covers broker readiness, not database migration readiness.
         condition: service_healthy
       # Fix:
       # migrate-core-db:

@@ -4,12 +4,14 @@ services:
     container_name: cleanup-migrations
     depends_on:
       postgres:
+        # This one-off job should only start after Postgres accepts connections.
         condition: service_healthy
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
     restart: "no"
+    # Run a short-lived SQL cleanup command instead of the image default.
     entrypoint: ["sh", "-c"]
     command: |
       PGPASSWORD="$$POSTGRES_PASSWORD" psql -h postgres -U "$$POSTGRES_USER" -d "$$POSTGRES_DB" <<'EOSQL'
@@ -36,5 +38,6 @@ services:
       ConnectionStrings__CoreDbContext: ${CORE_DB_CONTEXT}
     depends_on:
       cleanup-migrations:
+        # Job-to-job ordering differs from long-running service readiness.
         # Fix: one-off jobs should use service_completed_successfully.
         condition: service_healthy

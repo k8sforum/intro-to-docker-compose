@@ -1,3 +1,4 @@
+# Compose files are built around top-level maps such as services and volumes.
 services: {}
 
 volumes: {}

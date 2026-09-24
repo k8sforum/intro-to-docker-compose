@@ -257,7 +257,7 @@ class: slide-lime
   <h1>Add the stateful dependencies</h1>
 
   <div class="code-panel mt-6">
-    <div>docker compose up postgres rabbitmq minio</div>
+    <div>docker compose up</div>
     <div>docker compose ps</div>
   </div>
 </div>

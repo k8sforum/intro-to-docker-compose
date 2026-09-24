@@ -1,6 +1,7 @@
 services:
   api:
     container_name: mytravels-api
+    # Remote image names require the image to exist in an accessible registry.
     image: mytravels-private/api:v1.0.8
     environment:
       ConnectionStrings__CoreDbContext: ${CORE_DB_CONTEXT}
@@ -14,17 +15,21 @@ services:
       MinIO__AccessKey: ${MINIO_ROOT_USER}
       MinIO__SecretKey: ${MINIO_ROOT_PASSWORD}
     ports:
+      # Host access for calling the API directly during the demo.
       - "5101:5101"
     depends_on:
       rabbitmq:
+        # Long-running dependencies should be healthy before the app starts.
         condition: service_healthy
       migrate-core-db:
+        # One-off database setup must finish successfully before the app starts.
         condition: service_completed_successfully
 
   messaging:
     container_name: mytravels-messaging
     image: mytravels-messaging:v1.0.10
     build:
+      # Local builds use source outside this Compose project directory.
       context: ../intro-to-k8s/src
       dockerfile: messaging/mytravels.messaging/Dockerfile
     environment:
@@ -39,6 +44,7 @@ services:
       GoogleMapsUrl: ${GOOGLE_MAPS_URL}
       GooglePlacesUrl: ${GOOGLE_PLACES_URL}
     ports:
+      # Useful for direct local inspection; not required for container-to-container traffic.
       - "5102:5102"
     depends_on:
       rabbitmq:
@@ -50,6 +56,7 @@ services:
     container_name: mytravels-mcp
     image: mytravels-mcp:v1.0.0
     build:
+      # Local builds use source outside this Compose project directory.
       context: ../intro-to-k8s/src
       dockerfile: api/mytravels.mcp/Dockerfile
     environment:
@@ -64,6 +71,7 @@ services:
       MinIO__AccessKey: ${MINIO_ROOT_USER}
       MinIO__SecretKey: ${MINIO_ROOT_PASSWORD}
     ports:
+      # Useful for direct local inspection; not required for container-to-container traffic.
       - "5103:5103"
     depends_on:
       rabbitmq:
