@@ -79,12 +79,6 @@ layout: default
         <h3>Front End</h3>
       </div>
     </div>
-    <div class="timeline-step">
-      <div class="timeline-marker">06</div>
-      <div class="timeline-copy">
-        <h3>Reliability Checks</h3>
-      </div>
-    </div>
   </div>
 
   <p class="roadmap-note">Every topic feeds the next live build step. Each layer exposes a different kind of Compose problem.</p>
@@ -169,7 +163,6 @@ class: slide-lime
     <div class="checkpoint-step"><span>03</span><strong>Database Flow</strong></div>
     <div class="checkpoint-step"><span>04</span><strong>App Services</strong></div>
     <div class="checkpoint-step"><span>05</span><strong>Front End</strong></div>
-    <div class="checkpoint-step"><span>06</span><strong>Reliability</strong></div>
   </div>
   <p class="checkpoint-note">A Compose project needs a clear top-level shape before the service details arrive.</p>
 
@@ -186,7 +179,7 @@ layout: default
 ---
 
 <div class="eyebrow">Core Concepts</div>
-<div class="stage-label">Live build stages 01-04 · use the same command loop throughout</div>
+<div class="stage-label">Live build stages 01-05 · use the same command loop throughout</div>
 
 # Compose CLI essentials
 
@@ -250,7 +243,6 @@ class: slide-lime
     <div class="checkpoint-step"><span>03</span><strong>Database Flow</strong></div>
     <div class="checkpoint-step"><span>04</span><strong>App Services</strong></div>
     <div class="checkpoint-step"><span>05</span><strong>Front End</strong></div>
-    <div class="checkpoint-step"><span>06</span><strong>Reliability</strong></div>
   </div>
   <p class="checkpoint-note">Stateful dependencies introduce ports, persistent volumes, and host-file bind mounts.</p>
 
@@ -274,7 +266,6 @@ layout: default
   <div class="checkpoint-step"><span>03</span><strong>Database Flow</strong></div>
   <div class="checkpoint-step"><span>04</span><strong>App Services</strong></div>
   <div class="checkpoint-step"><span>05</span><strong>Front End</strong></div>
-  <div class="checkpoint-step"><span>06</span><strong>Reliability</strong></div>
 </div>
 <p class="checkpoint-note">Bind mounts fail when the host path, container path, or file-vs-directory shape does not match.</p>
 
@@ -341,7 +332,6 @@ class: slide-lime
     <div class="checkpoint-step is-active"><span>03</span><strong>Database Flow</strong></div>
     <div class="checkpoint-step"><span>04</span><strong>App Services</strong></div>
     <div class="checkpoint-step"><span>05</span><strong>Front End</strong></div>
-    <div class="checkpoint-step"><span>06</span><strong>Reliability</strong></div>
   </div>
   <p class="checkpoint-note">Database jobs expose the difference between service health and one-off job completion.</p>
 
@@ -401,7 +391,6 @@ class: slide-lime
     <div class="checkpoint-step is-done"><span>03</span><strong>Database Flow</strong></div>
     <div class="checkpoint-step is-active"><span>04</span><strong>App Services</strong></div>
     <div class="checkpoint-step"><span>05</span><strong>Front End</strong></div>
-    <div class="checkpoint-step"><span>06</span><strong>Reliability</strong></div>
   </div>
   <p class="checkpoint-note">Application services expose the boundary between local builds and registry pulls.</p>
 
@@ -426,7 +415,6 @@ layout: default
   <div class="checkpoint-step is-done"><span>03</span><strong>Database Flow</strong></div>
   <div class="checkpoint-step is-active"><span>04</span><strong>App Services</strong></div>
   <div class="checkpoint-step"><span>05</span><strong>Front End</strong></div>
-  <div class="checkpoint-step"><span>06</span><strong>Reliability</strong></div>
 </div>
 <p class="checkpoint-note">If Compose reaches for a registry instead of building locally, the image reference is telling you something important.</p>
 
@@ -492,7 +480,6 @@ class: slide-lime
     <div class="checkpoint-step is-done"><span>03</span><strong>Database Flow</strong></div>
     <div class="checkpoint-step is-done"><span>04</span><strong>App Services</strong></div>
     <div class="checkpoint-step is-active"><span>05</span><strong>Front End</strong></div>
-    <div class="checkpoint-step"><span>06</span><strong>Reliability</strong></div>
   </div>
   <p class="checkpoint-note">The web service separates in-network access from host-browser access.</p>
 
@@ -533,55 +520,7 @@ class: slide-navy
 <div class="section-divider">
   <div class="section-number">07</div>
   <h1>Reliability &amp; Quality</h1>
-  <div class="subtitle">Finish the build by declaring the real dependency chain and keeping concerns separate</div>
-</div>
-
----
-layout: default
----
-
-<div class="eyebrow">Reliability</div>
-<div class="stage-label">Live build stage 06 · reliability checks</div>
-
-# The API must wait for migrations, not just Postgres
-
-<div class="grid grid-cols-3 gap-5 mt-8 items-center text-center">
-  <div class="card"><strong>postgres</strong><br><span style="color:var(--grey-secondary)">healthy</span></div>
-  <div class="card-navy"><strong>migrate-core-db</strong><br><span style="color:var(--text-light-muted)">completed successfully</span></div>
-  <div class="card"><strong>api</strong><br><span style="color:var(--grey-secondary)">starts after both</span></div>
-</div>
-
-<ul class="text-lg leading-relaxed mt-8">
-  <li><code>depends_on</code> should reflect the full chain, not just the nearest container.</li>
-  <li><code>service_completed_successfully</code> is the right condition for one-off jobs such as migrations.</li>
-  <li>Reliability comes from declaring the dependency your application actually has.</li>
-</ul>
-
----
-layout: default
-class: slide-lime
----
-
-<div class="content-frame">
-  <div class="eyebrow">Live checkpoint</div>
-  <div class="stage-label">Live build timeline</div>
-  <div class="checkpoint-timeline">
-    <div class="checkpoint-step is-done"><span>01</span><strong>Foundation</strong></div>
-    <div class="checkpoint-step is-done"><span>02</span><strong>Dependencies</strong></div>
-    <div class="checkpoint-step is-done"><span>03</span><strong>Database Flow</strong></div>
-    <div class="checkpoint-step is-done"><span>04</span><strong>App Services</strong></div>
-    <div class="checkpoint-step is-done"><span>05</span><strong>Front End</strong></div>
-    <div class="checkpoint-step is-active"><span>06</span><strong>Reliability</strong></div>
-  </div>
-  <p class="checkpoint-note">The final stack depends on the full readiness chain, not just the nearest container.</p>
-
-  <h1>Verify the final dependency chain</h1>
-
-  <div class="code-panel mt-6">
-    <div>postgres: service health</div>
-    <div>migrate-core-db: job completion</div>
-    <div>api: application readiness</div>
-  </div>
+  <div class="subtitle">Finish by keeping image behaviour and environment wiring separate</div>
 </div>
 
 ---
@@ -589,7 +528,7 @@ layout: default
 ---
 
 <div class="eyebrow">Quality Iteration</div>
-<div class="stage-label">Live build stage 06 · reliability checks</div>
+<div class="stage-label">Reliability &amp; Quality</div>
 
 # Put each concern in the right place
 
@@ -611,7 +550,7 @@ layout: default
 ---
 
 <div class="eyebrow">Quality Iteration</div>
-<div class="stage-label">Live build stage 06 · reliability checks</div>
+<div class="stage-label">Reliability &amp; Quality</div>
 
 # Keep environment configuration outside the image
 

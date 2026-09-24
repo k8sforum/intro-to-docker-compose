@@ -13,7 +13,6 @@ Suggested copy order:
 4. `04-app-services/broken.yml`
 5. `05-front-end/no-ports/broken.yml`
 6. `05-front-end/wrong-port/broken.yml`
-7. `06-reliability/broken.yml`
 
 How to use them:
 
@@ -23,6 +22,5 @@ How to use them:
 - `04` introduces the application services and image resolution.
 - `05` introduces host access for the web service.
 - `05` continues the front-end stage with port publishing behavior.
-- `06` shows the final readiness chain for the API.
 
 Use [`docker-compose.yml`](../docker-compose.yml) as the fixed reference state after each repair.
