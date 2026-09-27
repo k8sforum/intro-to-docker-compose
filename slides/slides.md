@@ -274,7 +274,7 @@ layout: default
 <div class="grid grid-cols-2 gap-8 mt-8 items-center">
   <div class="code-panel">
     <div><span class="tok-cmd">volumes</span>:</div>
-    <div>&nbsp;&nbsp;- ../intro-to-k8s/scripts/</div>
+    <div>&nbsp;&nbsp;- ./intro-to-k8s/scripts/</div>
     <div>&nbsp;&nbsp;&nbsp;&nbsp;init-dbs.sql:/docker-entrypoint-</div>
     <div>&nbsp;&nbsp;&nbsp;&nbsp;initdb.d/init-dbs.sql</div>
   </div>

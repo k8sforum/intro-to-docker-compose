@@ -1,4 +1,148 @@
 services:
+  
+  web:
+    container_name: mytravels-web
+    image: mytravels-web:v1.0.4
+    build:
+      # The front end is built locally so the API URL can be injected at build time.
+      context: ./intro-to-k8s/src
+      dockerfile: web/Dockerfile
+      args:
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL}
+        VITE_OTEL_EXPORTER_OTLP_TRACES_ENDPOINT: ${VITE_OTEL_EXPORTER_OTLP_TRACES_ENDPOINT}
+    ports:
+      # Format is host:container. The browser uses the host-side port.
+      - "5100:80"
+    depends_on:
+      # Simple list syntax orders startup but does not wait for app-level readiness.
+      - api
+      - messaging
+  
+  api:
+    container_name: mytravels-api
+    # Remote image names require the image to exist in an accessible registry.
+    image: mytravels-api:v1.0.8
+    build:
+      context: ./intro-to-k8s/src
+      dockerfile: api/mytravels.api/Dockerfile
+    environment:
+      ConnectionStrings__CoreDbContext: ${CORE_DB_CONTEXT}
+      GoogleApiKey: ${GOOGLE_API_KEY}
+      GoogleMapsUrl: ${GOOGLE_MAPS_URL}
+      GooglePlacesUrl: ${GOOGLE_PLACES_URL}
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
+      ASPNETCORE_URLS: ${ASPNETCORE_URLS}
+      RabbitMQ__Uri: ${RABBIT_MQ_URI}
+      MinIO__Endpoint: ${MINIO_ENDPOINT}
+      MinIO__AccessKey: ${MINIO_ROOT_USER}
+      MinIO__SecretKey: ${MINIO_ROOT_PASSWORD}
+    ports:
+      # Host access for calling the API directly during the demo.
+      - "5101:5101"
+    depends_on:
+      rabbitmq:
+        # Long-running dependencies should be healthy before the app starts.
+        condition: service_healthy
+      migrate-core-db:
+        # One-off database setup must finish successfully before the app starts.
+        condition: service_completed_successfully
+
+  messaging:
+    container_name: mytravels-messaging
+    image: mytravels-messaging:v1.0.10
+    build:
+      # Local builds use source from the checked-out submodule.
+      context: ./intro-to-k8s/src
+      dockerfile: messaging/mytravels.messaging/Dockerfile
+    environment:
+      ConnectionStrings__CoreDbContext: ${CORE_DB_CONTEXT}
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
+      ASPNETCORE_URLS: http://+:5102
+      RabbitMQ__Uri: ${RABBIT_MQ_URI}
+      MinIO__Endpoint: ${MINIO_ENDPOINT}
+      MinIO__AccessKey: ${MINIO_ROOT_USER}
+      MinIO__SecretKey: ${MINIO_ROOT_PASSWORD}
+      GoogleApiKey: ${GOOGLE_API_KEY}
+      GoogleMapsUrl: ${GOOGLE_MAPS_URL}
+      GooglePlacesUrl: ${GOOGLE_PLACES_URL}
+    ports:
+      # Useful for direct local inspection; not required for container-to-container traffic.
+      - "5102:5102"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      migrate-core-db:
+        condition: service_completed_successfully
+
+  mcp:
+    container_name: mytravels-mcp
+    image: mytravels-mcp:v1.0.0
+    build:
+      # Local builds use source from the checked-out submodule.
+      context: ./intro-to-k8s/src
+      dockerfile: api/mytravels.mcp/Dockerfile
+    environment:
+      ConnectionStrings__CoreDbContext: ${CORE_DB_CONTEXT}
+      GoogleApiKey: ${GOOGLE_API_KEY}
+      GoogleMapsUrl: ${GOOGLE_MAPS_URL}
+      GooglePlacesUrl: ${GOOGLE_PLACES_URL}
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
+      ASPNETCORE_URLS: http://+:5103
+      RabbitMQ__Uri: ${RABBIT_MQ_URI}
+      MinIO__Endpoint: ${MINIO_ENDPOINT}
+      MinIO__AccessKey: ${MINIO_ROOT_USER}
+      MinIO__SecretKey: ${MINIO_ROOT_PASSWORD}
+    ports:
+      # Useful for direct local inspection; not required for container-to-container traffic.
+      - "5103:5103"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      migrate-core-db:
+        condition: service_completed_successfully
+  
+  cleanup-migrations:
+    image: postgres:17.6-alpine
+    container_name: cleanup-migrations
+    depends_on:
+      postgres:
+        # This one-off job should only start after Postgres accepts connections.
+        condition: service_healthy
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    restart: "no"
+    # Run a short-lived SQL cleanup command instead of the image default.
+    entrypoint: ["sh", "-c"]
+    command: |
+      PGPASSWORD="$$POSTGRES_PASSWORD" psql -h postgres -U "$$POSTGRES_USER" -d "$$POSTGRES_DB" <<'EOSQL'
+      DO $$
+      BEGIN
+        IF EXISTS (
+          SELECT 1 FROM information_schema.tables
+          WHERE table_schema='config' AND table_name='EFMigrationsHistory'
+        ) THEN
+          DELETE FROM "EFMigrationsHistory" WHERE "MigrationId" IN ('20600930075821_SeedData', '20590930075747_UpdateStoredProcedure');
+        END IF;
+      END
+      $$;
+      EOSQL
+
+  migrate-core-db:
+    image: mytravels-migrations:v1.0.5
+    build:
+      context: ./intro-to-k8s/src
+      dockerfile: common/mytravels.migration/Dockerfile
+    command: ["--connection", "${CORE_DB_CONTEXT}"]
+    restart: "no"
+    environment:
+      ConnectionStrings__CoreDbContext: ${CORE_DB_CONTEXT}
+    depends_on:
+      cleanup-migrations:
+        # Job-to-job ordering differs from long-running service readiness.
+        condition: service_completed_successfully
+  
   minio:
     image: quay.io/minio/minio
     container_name: minio
@@ -41,7 +185,7 @@ services:
       - mqdata:/var/lib/rabbitmq
       - mqconfig:/etc/rabbitmq
       # Host-file bind mount used to enable RabbitMQ plugins.
-      - ../intro-to-k8s/1-dockerize/observability/rabbitmq-enabled_plugins:/etc/rabbitmq/enabled_plugins:ro
+      - ./intro-to-k8s/1-dockerize/observability/rabbitmq-enabled_plugins:/etc/rabbitmq/enabled_plugins:ro
     healthcheck:
       test: ["CMD", "rabbitmqctl", "status"]
       interval: 5s
@@ -62,8 +206,7 @@ services:
     volumes:
       # Database data is kept in a named volume; init scripts are bind-mounted.
       - pgdata:/var/lib/postgresql/data
-      # Fix: ../intro-to-k8s/scripts/init-dbs.sql:/docker-entrypoint-initdb.d/init-dbs.sql
-      - ./missing-script/init-dbs.sql:/docker-entrypoint-initdb.d/init-dbs.sql
+      - ./intro-to-k8s/scripts/init-dbs.sql:/docker-entrypoint-initdb.d/init-dbs.sql
     healthcheck:
       test: ["CMD-SHELL", "PGPASSWORD=${POSTGRES_PASSWORD} pg_isready -h localhost -p 5432 -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 10s

@@ -41,7 +41,7 @@ services:
       - mqdata:/var/lib/rabbitmq
       - mqconfig:/etc/rabbitmq
       # Host-file bind mount used to enable RabbitMQ plugins.
-      # Fix: ../intro-to-k8s/1-dockerize/observability/rabbitmq-enabled_plugins:/etc/rabbitmq/enabled_plugins:ro
+      # Fix: ./intro-to-k8s/1-dockerize/observability/rabbitmq-enabled_plugins:/etc/rabbitmq/enabled_plugins:ro
       - ./missing-observability/rabbitmq-enabled_plugins:/etc/rabbitmq/enabled_plugins:ro
     healthcheck:
       test: ["CMD", "rabbitmqctl", "status"]
@@ -63,7 +63,7 @@ services:
     volumes:
       # Database data is kept in a named volume; init scripts are bind-mounted.
       - pgdata:/var/lib/postgresql/data
-      # Fix: ../intro-to-k8s/scripts/init-dbs.sql:/docker-entrypoint-initdb.d/init-dbs.sql
+      # Fix: ./intro-to-k8s/scripts/init-dbs.sql:/docker-entrypoint-initdb.d/init-dbs.sql
       - ./missing-script/init-dbs.sql:/docker-entrypoint-initdb.d/init-dbs.sql
     healthcheck:
       test: ["CMD-SHELL", "PGPASSWORD=${POSTGRES_PASSWORD} pg_isready -h localhost -p 5432 -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]

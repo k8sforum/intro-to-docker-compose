@@ -1,0 +1,3 @@
+[submodule "intro-to-k8s"]
+	path = intro-to-k8s
+	url = https://github.com/k8sforum/intro-to-k8s.git

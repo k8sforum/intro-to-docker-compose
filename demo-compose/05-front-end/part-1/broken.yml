@@ -4,7 +4,7 @@ services:
     image: mytravels-web:v1.0.4
     build:
       # The front end is built locally so the API URL can be injected at build time.
-      context: ../intro-to-k8s/src
+      context: ./intro-to-k8s/src
       dockerfile: web/Dockerfile
       args:
         VITE_API_BASE_URL: ${VITE_API_BASE_URL}

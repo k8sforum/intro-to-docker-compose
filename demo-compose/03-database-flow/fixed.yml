@@ -30,7 +30,7 @@ services:
   migrate-core-db:
     image: mytravels-migrations:v1.0.5
     build:
-      context: ../intro-to-k8s/src
+      context: ./intro-to-k8s/src
       dockerfile: common/mytravels.migration/Dockerfile
     command: ["--connection", "${CORE_DB_CONTEXT}"]
     restart: "no"

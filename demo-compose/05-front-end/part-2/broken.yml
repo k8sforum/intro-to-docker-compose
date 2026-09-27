@@ -4,14 +4,14 @@ services:
     image: mytravels-web:v1.0.4
     build:
       # The front end is built locally so the API URL can be injected at build time.
-      context: ../intro-to-k8s/src
+      context: ./intro-to-k8s/src
       dockerfile: web/Dockerfile
       args:
         VITE_API_BASE_URL: ${VITE_API_BASE_URL}
         VITE_OTEL_EXPORTER_OTLP_TRACES_ENDPOINT: ${VITE_OTEL_EXPORTER_OTLP_TRACES_ENDPOINT}
     ports:
       # Format is host:container. The browser uses the host-side port.
-      - "5199:80"
+      - "5100:8080"
     depends_on:
       # Simple list syntax orders startup but does not wait for app-level readiness.
       - api
